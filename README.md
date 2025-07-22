@@ -68,6 +68,16 @@ Gitmark XEC VSCode is an extension for Visual Studio Code that integrates Gitmar
 
 [GitHub Link](https://github.com/mediaprophet/gitmark-xec-vscode)
 
+### socialweb planningdocs
+SocialWeb PlanningDocs is a collection of planning documents, specifications, and conceptual frameworks for building decentralized social web platforms. It covers architecture, protocols, and governance models to support open, interoperable, and user-centric social networking solutions.
+
+[GitHub Link](https://github.com/mediaprophet/socialweb/tree/main/planningdocs)
+
+### SocialWeb-XEC
+SocialWeb-XEC is a platform and toolkit for integrating decentralized social networking features with the XEC blockchain. It enables secure identity, content sharing, and social interactions, leveraging blockchain technology for transparency, interoperability, and user empowerment.
+
+[GitHub Link](https://github.com/mediaprophet/SocialWeb-XEC)
+
 ## Contributing
 Guidelines for contributing to this repository.
 
