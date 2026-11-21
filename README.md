@@ -10,7 +10,7 @@ This repository tracks the active architecture, core platforms, libraries, toolc
 ## Table of Contents
 
 1. [Overview](#overview)
-2. [Core Platform & Database Foundation](#1-core-platform--database-foundation)
+2. [Core Platform, Database Foundation & WellFair](#1-core-platform-database-foundation--wellfair)
 3. [GPU Compute, Inference Engine, Hardware & Native UI Framework](#2-gpu-compute-inference-engine-hardware--native-ui-framework)
 4. [Language & Developer Tooling](#3-language--developer-tooling)
 5. [Hypermedia Production, Authoring & Asset Engines](#4-hypermedia-production-authoring--asset-engines)
@@ -28,7 +28,7 @@ The **QualiaDB / Webizen** ecosystem is a local-first, Rust- and WASM-native hum
 
 ---
 
-## 1. Core Platform & Database Foundation
+## 1. Core Platform, Database Foundation & WellFair
 
 ### QualiaDB (`qualiaDB`)
 The core 30+ crate local-first semantic database, multi-modal reasoning engine, decentralized networking stack, post-quantum cryptographic vault, scientific/simulation substrate, and governed personal AI platform that underpins the entire ecosystem.
@@ -67,10 +67,30 @@ The core 30+ crate local-first semantic database, multi-modal reasoning engine, 
   - **Quantum Chemistry & QPU Bridge:** Hartree-Fock (RHF/UHF), Density Functional Theory (DFT with native autodiff), GTO basis sets (STO-3G, def2-SVP, ECPs), Obara-Saika/HGP & Rys quadrature ERIs, DIIS/Broyden SCF, quantum biology, and `qualia-q-forge` DQC/VQE QGroup quantum scheduler.
   - **Vision, Audio, Sim & Domain Modeling:** Multi-physics simulation (`qualia-sim`), geospatial strata/Hilbert indexing (`qualia-geospatial`), computer vision (`qualia-vision`: rPPG pulse, respiration, liveness PAD), spatial HRTF audio (`qualia-audio`), bioinformatics, computational economics, financial modeling, engineering analysis, and medical/clinical computing.
 
-- **Applications, WellFair & Runtime Surfaces (`wellfare-core`, `qualia-anatomy-pack`, `webizen-studio`, `webizen-render`, `webizen-runtime`, `qualia-app-contract`, `qualia-mcp`, `qualia-cli`):**
-  - **WellFair (`wellfare-core`):** Personal health, anatomy visualization, clinical/medication records, finance, consent, guardianship, and cooperative support vault.
-  - **Studio, Renderer & QApp Contract:** N-dimensional renderer (`webizen-render`), fixed-timestep GPU diffusion runtime (`webizen-runtime`), Webizen Studio Semantic Instruments bay, QApp contract (`qualia-app-contract`), MCP server (`qualia-mcp`), and CLI (`qualia-cli`).
+- **Applications, Studio & Runtime Surfaces (`webizen-studio`, `webizen-render`, `webizen-runtime`, `qualia-app-contract`, `qualia-mcp`, `qualia-cli`):**
+  - **Studio, Renderer & QApp Contract:** N-dimensional renderer (`webizen-render`), fixed-timestep GPU diffusion runtime (`webizen-runtime`), Webizen Studio Semantic Instruments bay, 333-entry QApp discipline catalog and runtime contract (`qualia-app-contract`), MCP server (`qualia-mcp`), and CLI (`qualia-cli`).
 - **Repository:** [github.com/mediaprophet/qualiaDB](https://github.com/mediaprophet/qualiaDB)
+
+### WellFair — Personal Health, Welfare, Anatomy & Fairness Vault (`wellfare-core`, `qualia-client-core/src/wellfair`, `qualia-mobile-harness`, `anatomy`)
+At the heart of the QualiaDB mission: **WellFair** joins human **welfare** and **fairness** into a fiduciary personal health, body, life-records, social-support, financial, and cooperative labour vault where the **natural person is the principal** and software operates under an explicit principal–agent duty of care (migrated from its standalone checkout into `qualiaDB/crates/wellfare-core` with a WebAssembly Component Model contract at `wit/wellfare.wit`).
+
+- **48-Byte `NQuin` Epistemic Record Envelopes (`record.rs`, `n3_rules.rs`, `shapes.rs`):**
+  - Every physiological, clinical, welfare, or financial entry is wrapped in a `RecordEnvelope` with explicit `EpistemicStatus`, `EvidenceType`, and `SensitivityClass`, validated by SHACL shapes and N3Logic rules and compiled to 48-byte `NQuin`s inside Sanctuary-guarded `.q42` volumes.
+- **3D Human Anatomy, Physiology & Maternal-Fetal Dyad Modeling (`wellfare-core/src/anatomy/`, `qualia-anatomy-pack`, `mediaprophet/anatomy`):**
+  - Models body systems, physiological factors, constitutional baselines, per-system burden accumulation (`accumulate.rs`), temporal kinetics (`temporal.rs`), densitometry (`densitometry.rs`), gestational/developmental stages and maternal-fetal dyads (`birth.rs`, `dyad.rs`), investigative pathways (`pathway.rs`), and system scorecards (`scorecard.rs`)—coupled directly to 3D `.10d` / `.hmc` anatomical models (`human-welfare.hmc` and the Visible Human Medical Atlas).
+- **Clinical, Wearable, Medication & Mental Wellbeing Records (`clinical.rs`, `medication.rs`, `conditions.rs`, `parser.rs`, `sleep_analytics.rs`, `mental_wellbeing.rs`, `assessment.rs`):**
+  - **Biometric & Wearable Ingestion:** Natively parses mobile/wearable health exports (e.g. Samsung Health CSV/JSON → FHIR/RDF Turtle for weight, body composition, sleep stages/efficiency, heart-rate zones, and steps) with non-diagnostic sleep-debt and weekly heatmap analytics (`sleep_analytics.rs`).
+  - **Clinical & Medication Management:** Pathology observations and diagnostic reports (`clinical.rs`), self-reported conditions and allergies (`conditions.rs`), medication catalogs, administration logs, diet entries, and desktop OS toast reminders (`medication.rs`, `med_reminder_notifier.rs`).
+  - **Mental Wellbeing:** Personal wellbeing observations and therapy notes (`mental_wellbeing.rs`) alongside a non-diagnostic self-report scoring engine (`assessment.rs`: PHQ-9, GAD-7).
+- **Life Records, Contested Diagnoses, Housing Safety & Welfare Support (`life_records.rs`, `personal_records.rs`, `welfare_support.rs`):**
+  - **Contested & Personal Safety Records (`personal_records.rs`):** Gives the natural person first-class records for **disputed-diagnosis reports** (contesting or qualifying institutional medical claims with the person's own evidence and context) and **housing-safety reports**.
+  - **Welfare Support & Government Correspondence (`welfare_support.rs`, `life_records.rs`):** Tracks life events, welfare-case management, case tasks, structured `AssistanceNeed` records (by category and urgency), benefit streams (`WelfareStream` — e.g. JobSeeker Payment, Disability Support Pension, case references, status), and indexable `GovernmentLetter` envelopes.
+- **Guardianship, Authority Attestation & Consent-Gated Live Sharing (`guardianship.rs`, `authority_attestation.rs`, `credentials.rs`, `live_share.rs`):**
+  - Per-record proxy/supporter guardianship escrow and supported agency (`guardianship.rs`), authority attestations (`authority_attestation.rs`), Verifiable Credentials (`credentials.rs`), and scoped `live_share.rs` usage agreements allowing a person to grant (or revoke) time- and section-bounded read access to clinicians, family supporters, or services.
+- **Replay-Safe Personal Finance & Cooperative Project Ledgers (`finance.rs`, `projects.rs`):**
+  - Double-entry personal finance and cooperative project contribution/obligation tracking (`Steward`/`Contributor`/`Observer`, effort minutes, capital/reimbursable cents) with add-wins-by-ID merge discipline.
+- **WellFair Care Shell & Mobile Companion PWA (`webizen-studio/src/components/wellfair/`, `qualia-client-core/src/wellfair/api.rs`, `qualia-mobile-harness`):**
+  - Backed by a 4,073-line host API (`wellfair/api.rs`) and ~34 Aether UI panels in Webizen Desktop/Studio (`/wellfair` route, `Ctrl+1`), including the **Social Book** (pairwise DID directory and PolicyService delegation/sharing approval) and **Communications** (companion live-section consent gate), plus the **`qualia-mobile-harness`** Aether WASM phone companion PWA (QR + Ed25519 challenge-response pairing, encrypted `CompanionHealthBundle` sync, and WebRTC/WebSocket live-share signaling).
 
 ---
 
