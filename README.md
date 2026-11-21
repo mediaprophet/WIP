@@ -11,7 +11,7 @@ This repository tracks the active architecture, core platforms, libraries, toolc
 
 1. [Overview](#overview)
 2. [Core Platform & Database Foundation](#1-core-platform--database-foundation)
-3. [GPU Compute, Hardware & Native UI Framework](#2-gpu-compute-hardware--native-ui-framework)
+3. [GPU Compute, Inference Engine, Hardware & Native UI Framework](#2-gpu-compute-inference-engine-hardware--native-ui-framework)
 4. [Language & Developer Tooling](#3-language--developer-tooling)
 5. [Hypermedia Production, Authoring & Asset Engines](#4-hypermedia-production-authoring--asset-engines)
 6. [Operating Environment, Host Infrastructure & Web Engines](#5-operating-environment-host-infrastructure--web-engines)
@@ -31,22 +31,65 @@ The **QualiaDB / Webizen** ecosystem is a local-first, Rust- and WASM-native hum
 ## 1. Core Platform & Database Foundation
 
 ### QualiaDB (`qualiaDB`)
-The core local-first semantic database, reasoning engine, scientific/simulation substrate, and personal AI runtime that underpins the entire ecosystem.
-- **Semantic Graph & Storage:** Compact 48-byte `NQuin` records and memory-mapped unified **Q42 v3** volumes (`Q42\0`, 256-byte header) with embedded `Q42LEX` lexicon, `BIDX` object-range indexes, and LZ4 `QualiaSuperBlock` storage.
-- **Query & Reasoning:** Live SPARQL 1.1 / SPARQL-Star engine, GeoSPARQL, QISP (`Tensor10D`), deterministic zero-heap Prolog/SLG resolution (42 MiB sentinel), N3Logic, SHACL validation, and deontic/paraconsistent governance rules.
-- **Local AI & GPU Inference:** In-process `.p64` / GGUF autoregressive inference and **WGSL Forge** kernel generation without requiring Python or external model servers.
-- **Multi-Scale Domains (`L0`–`L6`):** Continuum (`L0`), Rigid/Articulated PGA & XPBD (`L1`), Soft-Body/Fluid (`L2`), Molecular/Chemical (`L3`), Cellular/Biological (`L4`), Ecological/Geomorphic (`L5`), and Quantum Physics & Quantum Chemistry (`L6`).
+The core 30+ crate local-first semantic database, multi-modal reasoning engine, decentralized networking stack, post-quantum cryptographic vault, scientific/simulation substrate, and governed personal AI platform that underpins the entire ecosystem.
+
+- **Semantic Graph, Storage & Query Engine (`q42`, `query`, `container_10d`, `qualia-seal-10d`):**
+  - **Unified Q42 v3 Storage:** Compact 48-byte `NQuin` records and memory-mapped `.q42` volumes (`Q42\0`, 256-byte header) with embedded `Q42LEX` lexicon, `BIDX` object-range indexes, field-range/postings indexes, and 40 KiB LZ4 `QualiaSuperBlock`s. Enforces Sanctuary vs. Permissive Commons boundary gates at the storage layer.
+  - **SPARQL-Star, GeoSPARQL & QISP:** Full SPARQL 1.1 / SPARQL-Star query and governed UPDATE engine, GeoSPARQL WKT topology/distance operations, QISP (`Tensor10D` vector/tensor distance and within predicates), and RDF/Turtle/TriG/N3/JSON-LD/CBOR-LD (`0xD9 0x0501`) codecs.
+  - **Hypermedia & Multi-Scale Containers (`L0`–`L6`):** Native 10D v2 holographic phase-space containers (`.10d` with `HOLO` `0x0306`), `.m64` 64-byte material strata, `.emf` Hilbert field bricks, `.qac` spatial PGA acoustic containers, and `.hmc` (`QBDL`) page-aligned hypermedia bundles across Continuum (`L0`), Rigid/Articulated PGA/XPBD (`L1`), Soft-Body/Fluid (`L2`), Molecular/Chemical (`L3`), Cellular/Biological (`L4`), Ecological/Geomorphic (`L5`), and Quantum Physics & Chemistry (`L6`).
+
+- **Networking, Socially Defined Networking (QDNF) & P2P Fabric (`net`, `p2p`, `qualia-peer`):**
+  - **Qualia Decentralized Network Fabric (`net/qdnf`):** Socially Defined Networking separating the **Who-Plane** (`did:qi` / `NaturalAgent`) from the **Handle-Plane** (`DNI` / DNS / IP), featuring `QRoute` (Ed25519 → ULA IPv6 `fd00::/8`), `QResolve`, `QPolicy` deontic policy labels, bearer/session contracts, cell replication, and domain vertical profiles (clinical, biometrics, economics).
+  - **$O(1)$ `NQuin` DNS & Native Linux eBPF Firewall (`net/dns`, `ebpf_filter`, `ebpf_firewall`):** Zero-heap `NQuin` DNS cache ring, SDN split-horizon resolution, and kernel/socket eBPF packet filtering and per-sandbox egress byte quota enforcement.
+  - **Multi-Transport P2P, Mesh & Privacy Routing (`p2p`, `p2p/connectivity`, `net`):** Userspace WireGuard (`wireguard_userspace`, `wg_engine`), CSCP over HTTP/2 capsules (`cscp_h2`, `h2_capsule`) and WebSockets/TLS (`cscp_wss`, `wss_tls`), ICE/STUN/TURN UDP and NAT64 traversal, SocialWebNet (`social_webnet`, `social_qdnf`), **Nym mixnet** privacy routing (`nym_adapter`), and offline **Acoustic/Ultrasonic + BLE Mesh** networking (`acoustic_ble_mesh`, `sonic_token`).
+
+- **Post-Quantum, Fiduciary & Sanctuary Cryptography (`crypto`, `identity`, `did_qi`):**
+  - **Post-Quantum & Hybrid Network Crypto (`crypto/network`):** ML-KEM / Kyber key encapsulation (`kem`, `pq_kem_shim`), ML-DSA post-quantum signatures (`mldsa`), dual classical + PQ signing (`dual_sign`: Ed25519 + ML-DSA), X25519, COSE, secret leases, and automated key rotation.
+  - **Homomorphic Encryption, Differential Privacy & Zero-Knowledge (`crypto`):** Real BFV homomorphic encryption, caller-buffered calibrated differential privacy with composition accounting, zero-knowledge predicates and proofs (`zk_predicates`, `zk_proofs`), deontic circuits (`deontic_circuit`), Fiduciary Crypto, and Sanctuary Keychain / tamper-evident Audit DAG (`sanctuary_crypto`, `sanctuary_audit_dag`).
+  - **Identifier Fabric (`did_qi`, `identity`):** `did:qi` method (Git-object, relationship-scoped mailbox, and UTXO bindings), Verifiable Credentials, Anvil hardware-attuned vault policies (`anvil_policy`), and compartmentalized access modalities.
+
+- **Multi-Modal Logic, Governance & Semantic Instruments (`modalities`, `governance`, `semantic_instruments`, `qualia-cooperative-core`, `work-graph`):**
+  - **40+ Formal Logic & Modality Evaluators:** Deterministic zero-heap Prolog/SLG resolution (42 MiB Sentinel), N3Logic, SHACL, Deontic & Meta-Deontic (`deontic_compose`, `meta_deontic`, `n3_deontic_bridge`), Jural & Legal Composition (`jural`, `legal_compose`), Epistemic, Paraconsistent, Temporal LTL/CTL, STIT ("seeing to it that"), Defeasible, Abductive, Argumentation, Dialectical, Causal, Evidential (`evidential_etau`), Type-1/Type-2 Fuzzy, Linear, Description Logic (`dl`), Answer Set Programming (`asp`), Interval Reasoning, and BFT Consensus.
+  - **Semantic Instruments:** Canonical Semantic Instruments (`SI-01..10`) for attestations, rights evaluation, RPL, and value flows; Traditional Knowledge & Biocultural (`TK`/`BC`) labels, illocutionary speech-act records, consent contracts, and law packages.
+
+- **Cooperative Projects, Work-Graph & Nine-Stage Contribution Lifecycle (`qualia-cooperative-core`, `work-graph`):**
+  - **Transport-Neutral Cooperative Domain (`COP-01..19`):** Manages shared cooperative projects (`Project`, `ProjectRole`: `Steward`, `Contributor`, `Observer`), work items (`work_item`), agency delegation (`agency_delegation`, `authority_type`), contextual assertions/evidence, and append-only contributor author chains (`predecessor_id`). Effort (integer minutes) and money (signed integer minor units, banker's rounding) merge **add-wins by stable entry ID** rather than raw sum so replayed or out-of-order sync frames can never double-count effort or obligations.
+  - **Nine-Stage Contribution, Valuation, Obligation & Licence-Transition Lifecycle (`contribution_lifecycle.rs`):** Implements the formal 9-stage pipeline compiling directly to 48-byte `NQuin`s—from **Stage 1 Request & Agreement** (`Commissioned`, `OpenBounty`, `CooperativeMandate`, `StewardAuthorised`, `UnsolicitedNoAgreement`; `ContractedService`, `AcceptedBounty`, `ConditionalPoolShare`, `ReimbursableExpense`, `VoluntaryCommonsGift`) and **Stage 2 Activity & Resources** (logging effort, reimbursable expenses, and capital advanced without prematurely minting debt) through review/acceptance, obligation derivation, pre-funded credit allocation drawdown, periodic reconciliation, **Two-Loop Permissive Commons** accounting, and verified obligation discharge prior to authorizing a licence transition.
+  - **Git & Codebase Work-Graph (`crates/work-graph`):** Extracts Git commit histories, authorship, and work graphs into deterministic `.q42` / `NQuin` provenance records connected to cooperative project ledgers.
+  - **M-of-N Cooperative Quorum Governance:** Multi-person cooperative stewardship with a 32-slot `SuspendedTransactionQueue` requiring M-of-N Ed25519 / post-quantum `ML-DSA-65` steward signatures for ratification while retaining paraconsistent dissent records.
+
+- **Governed AI, Prompt Precision & Etalon Inference Bridge (`inference`, `wasm_llm`, `qualia-inference-kernel`, `agent_runtime`):**
+  - **Prompt Precision & Model Precision Optimizer:** Token-envelope conditioning runtime, automated precision optimization,LoRA adapters (`lora`), and governed-inference intent validation with N3Logic output gating, provenance grounding, and commit-on-permit sequencing.
+  - **Split Inference Architecture (with Etalon):** QualiaDB owns semantic context, `.q42` uncertainty, prompt conditioning, and human-centric policy gates, while delegating low-level GPU/CPU tensor kernels, `.p64`/GGUF model execution, and WGSL Forge shader compilation to **Etalon** (`etalon-inference*`, `etalon-model*`, `etalon-wgsl-forge`), plus pure Rust→WASM browser WebGPU LLM execution with OPFS caching.
+
+- **Scientific Domains, Solvers & Specialized Libraries (`domains`, `solvers`, `specialized_libs`, `qualia-sim`, `qualia-geospatial`, `qualia-q-forge`, `qualia-vision`, `qualia-audio`):**
+  - **Computational Geometry & Solvers:** Exact predicates/constructions, 2D/3D Delaunay/hulls, mesh generation/repair/boolean operations, BVH, persistent homology (1,517+ tests), computer algebra & symbolic calculus/ODEs, geometric algebra (PGA), category theory, linear algebra, statistics, and optimization.
+  - **Quantum Chemistry & QPU Bridge:** Hartree-Fock (RHF/UHF), Density Functional Theory (DFT with native autodiff), GTO basis sets (STO-3G, def2-SVP, ECPs), Obara-Saika/HGP & Rys quadrature ERIs, DIIS/Broyden SCF, quantum biology, and `qualia-q-forge` DQC/VQE QGroup quantum scheduler.
+  - **Vision, Audio, Sim & Domain Modeling:** Multi-physics simulation (`qualia-sim`), geospatial strata/Hilbert indexing (`qualia-geospatial`), computer vision (`qualia-vision`: rPPG pulse, respiration, liveness PAD), spatial HRTF audio (`qualia-audio`), bioinformatics, computational economics, financial modeling, engineering analysis, and medical/clinical computing.
+
+- **Applications, WellFair & Runtime Surfaces (`wellfare-core`, `qualia-anatomy-pack`, `webizen-studio`, `webizen-render`, `webizen-runtime`, `qualia-app-contract`, `qualia-mcp`, `qualia-cli`):**
+  - **WellFair (`wellfare-core`):** Personal health, anatomy visualization, clinical/medication records, finance, consent, guardianship, and cooperative support vault.
+  - **Studio, Renderer & QApp Contract:** N-dimensional renderer (`webizen-render`), fixed-timestep GPU diffusion runtime (`webizen-runtime`), Webizen Studio Semantic Instruments bay, QApp contract (`qualia-app-contract`), MCP server (`qualia-mcp`), and CLI (`qualia-cli`).
 - **Repository:** [github.com/mediaprophet/qualiaDB](https://github.com/mediaprophet/qualiaDB)
 
 ---
 
-## 2. GPU Compute, Hardware & Native UI Framework
+## 2. GPU Compute, Inference Engine, Hardware & Native UI Framework
 
 ### Etalon (`etalon`)
-A pure-Rust GPU and compute API (evolved from `wgpu` and `naga`) serving as the required graphics, shader-translation, and compute backbone across QualiaDB, Aether, and Hypermedia Production.
-- **Architecture:** Includes `naga` (shader translator), `etalon-core` (validated safe boundary), `etalon-hal` (Vulkan, Metal, DX12, GLES/WebGL2 backends), `etalon-types`, and `etalon-naga-bridge`.
-- **Role:** Powers native Vulkan/Metal/DX12 rendering, `< 32`-step holographic 10D v2 phase-space raymarching, and WGSL Forge compute workloads across desktop and browser targets.
-- **Repository:** [github.com/mediaprophet/etalon](https://github.com/mediaprophet/etalon)
+A pure-Rust EMF synthesis, physical sensing, AI inference, and GPU compute/graphics stack (originating from an overhauled fork of `wgpu` 30 and `naga`) designed specifically for QualiaDB, Aether, and Hypermedia Production. Substantive GPU compute, `.p64`/GGUF model execution, shader generation, and hardware sensing capabilities were pushed from QualiaDB into Etalon so accelerator execution stays modular and reusable across the stack.
+
+- **Extracted Inference Engine & Model Runtime (`etalon-inference`, `etalon-inference-kernel`, `etalon-inference-contract`, `etalon-inference-lab`, `etalon-model`, `etalon-model-io`):**
+  - Houses the core GPU/CPU inference execution engine, `.p64` and GGUF model I/O, role-tagged layer-packed zero-copy weight loading (with CRC-32C integrity), autoregressive Transformer decode kernels, CPU differential oracles (`max_rel` verification), and runtime accuracy guards.
+- **WGSL Forge, Tensor Compute & CUDA/Cooperative Matrix (`etalon-wgsl-forge`, `etalon-tensor`, `etalon-cuda`):**
+  - Typed kernel and schedule IR, deterministic compute shader generation, Naga validation, bounded autotuning, pipeline caching, Vulkan cooperative-matrix (`vulkanMemoryModelDeviceScope`) and reduced-precision CUDA WMMA tensor-core GEMM execution, and multi-target translation (WGSL, SPIR-V, HLSL, MSL, PTX, CUDA-C).
+- **EMF Synthesis, Physical Sensing & Signal Processing (`etalon-sense`, `etalon-sense-core`, `etalon-sense-runtime`, `etalon-signal`):**
+  - Zero-heap caller-buffered physical sensing and signal-processing contracts with dedicated hardware crates for **SDR** (`etalon-sense-sdr`), **Wi-Fi** (`etalon-sense-wifi`), **BLE** (`etalon-sense-ble`), **Cellular** (`etalon-sense-cellular`), **NFC** (`etalon-sense-nfc`), **PC/SC smartcards** (`etalon-sense-pcsc`), **Camera** (`etalon-sense-camera`, `etalon-sense-camera-windows`), **WASAPI Audio** (`etalon-sense-wasapi`), **Windows Sensors** (`etalon-sense-windows-sensors`), and **CPU/GPU telemetry** (`etalon-sense-cpu`, `etalon-sense-gpu`).
+- **QualiaDB, VibeScript & Spatial Bridges (`etalon-nquin`, `etalon-vibe`, `etalon-render`, `etalon-sim`, `etalon-reconstruct`, `etalon-agent`, `etalon-resources`, `etalon-diagnostics`, `etalon-qualification`):**
+  - Direct 48-byte `NQuin` GPU buffer bindings, VibeScript accelerator SDK bindings, N-dimensional `Tensor10D` and `< 32`-step holographic 10D v2 phase-space raymarching, GPU physics simulation, and 3D reconstruction.
+- **Hardened Core Graphics & Shader Stack (`etalon`, `etalon-core`, `etalon-hal`, `etalon-types`, `etalon-naga-bridge`, `naga`):**
+  - Unified native (Vulkan, Metal, DirectX 12, GLES) and browser (WebGPU/WebGL2) backends with hardened `wasm32` `pop_error_scope` null handling, automatic `requiredLimits` adapter sanitization, and strict safe-boundary shader validation.
+- **Repository & Docs:** [github.com/mediaprophet/etalon](https://github.com/mediaprophet/etalon) | [mediaprophet.github.io/etalon](https://mediaprophet.github.io/etalon/)
 
 ### Anvil (`anvil`)
 Tier-0 `#![no_std]` hardware capability ontology and GPU/NPU instruction router sitting side-by-side with QualiaDB as a hardware enabler for Etalon.
@@ -127,10 +170,21 @@ Human-centric Linux VPS hosting platform and decentralized network infrastructur
   - `webizen-host-qcdn`, `webizen-host-economics` & `webizen-host-workbench`: Three-layer user-powered `Q-CDN` swarm, Two-Loop Permissive Commons settlement router (`QualiaPQ-Ledger`), and Poet Host Admin Workbench organized around Webizen's Six Life Domains.
 - **Repository:** [github.com/mediaprophet/webizen-host](https://github.com/mediaprophet/webizen-host)
 
-### Webizen WWW Engine (`chora`)
-The Servo-derived (`MPL-2.0`) traditional web (HTML/CSS/JS) browser engine repository used as an isolated sibling worker process for the **Webizen Web Browser** QApp.
-- **Boundary Note:** Kept strictly separate in workspace and licensing from QualiaDB's native **Chora** spatio-temporal commons canvas (`qualia://chora/universe`). Interfaces with Aether/Webizen exclusively through generic IPC/copied-frame embedding boundaries while migrating its WebGPU backend to Etalon.
-- **Repository:** [github.com/WebCivics/chora](https://github.com/WebCivics/chora)
+### Webizen WWW Engine — Servo Fork (`chora` / `chora-engine`)
+An independent, embeddable Rust browser engine (**`webizen-WWW-engine`**) for the traditional web (HTML, CSS, JavaScript) and the **read-write web** (W3C Solid / LDP / WebID), forked and detached from upstream [Servo](https://github.com/servo/servo) (`main` snapshot [`79ee827b6a5a60a40cab662223f555528571ebcc`](https://github.com/servo/servo/commit/79ee827b6a5a60a40cab662223f555528571ebcc), 19 October 2026) and used by the **Webizen Web Browser** QApp.
+
+- **Strict MPL-2.0 File-Level Ring-Fence & Naming Boundary (`LICENSE-BOUNDARY.md`):**
+  - **Chora** in QualiaDB is the native spatio-temporal commons canvas (`qualia://chora/universe`)—not this HTML engine. This engine's product name is **`webizen-WWW-engine`** (Cargo package `servo`, C ABI `ffi/capi`, transitional `Chora*` / `WwwEngine` embedder types; intended GitHub rename: `WebCivics/webizen-www-engine`).
+  - Every source file in this tree remains strictly **MPL-2.0**, ring-fenced from `CC BY-NC-ND 4.0` (and future anti-slavery-licensed) QualiaDB/Webizen/Aether code. Zero `qualia-*` or `webizen-*` crates are linked into the engine; host composition occurs exclusively via an isolated **sibling worker process** (`aether-chora-client` / `aether-chora-bridge-protocol`), generic embedder traits (`WebViewDelegate`, `ProtocolHandler`, `SocialWebBackend`), and the C ABI while its WebGPU backend migrates to Etalon.
+- **License-Clean Embedded Feature Profile (`embedded_library`):**
+  - Provides a non-viral, license-clean library distribution for embedders by omitting LGPL/GPL GStreamer dependencies (`media-gstreamer`) and selecting the BSD-style FreeType License (`FTL`) for `bundled_freetype`.
+- **Post-Quantum TLS 1.3 & Custom Root PKI First:**
+  - Prioritizes hybrid post-quantum key exchange (`X25519MLKEM768`) in TLS 1.3.
+  - Pluggable root trust management (`RootTrustPolicy::EmbedderRootsOnly`, `EmbedderAndWebPki`, `EmbedderAndPlatform`) with live in-flight root CA reload, mutual TLS (`ResolvesClientCert` / WebID-TLS session reuse), and `EmbedderCertVerifier` supporting Australian (AU) and community root CAs alongside post-quantum (`ML-DSA`) X.509 certificates.
+- **Hardware-Backed WebCrypto & Fiduciary/Guardianship Protections:**
+  - Delegates non-extractable WebCrypto key operations (`ML-DSA`, `ML-KEM`, `X-Wing`, `Ed25519`, `X25519`) to host hardware or Sanctuary keystores via `EmbedderKeystoreProvider`.
+  - Enforces human-rights, fiduciary, and guardianship protections (UDHR, CRC, CRPD) across origin isolation, permission gating, and credential handling across 64-bit Windows, Linux, macOS, Android, and OpenHarmony.
+- **Repositories:** [github.com/WebCivics/chora](https://github.com/WebCivics/chora) (`C:\github\chora`) | [github.com/mediaprophet/chora-engine](https://github.com/mediaprophet/chora-engine) | [github.com/mediaprophet/chora](https://github.com/mediaprophet/chora)
 
 ---
 
@@ -160,10 +214,23 @@ Applied Australian civics research, community site-planning tools, evidence grap
   - **Databox, Data-Safe & Community Ledger (`/databox`):** Governed disclosure flows, scoped permission receipts, and cooperative project contribution accounting, paired with **`observatory.civics.au`** as the RDF/`.q42` data registry.
 - **Repositories & Endpoints:** [https://dev.civics.au](https://dev.civics.au) | [github.com/mediaprophet/observatory.civics.au](https://github.com/mediaprophet/observatory.civics.au) | [github.com/mediaprophet/www.civics.au](https://github.com/mediaprophet/www.civics.au) | [github.com/mediaprophet/civics.au](https://github.com/mediaprophet/civics.au) | [github.com/mediaprophet/au-legislation](https://github.com/mediaprophet/au-legislation)
 
-### Humanitarian Equity Licensing & Rights Fabric (`license`)
-Methodology, legal/technical rights model, and prototype document generator for the **Humanitarian Equity Licensing Framework** and **WellFair** human-centric rights fabric.
-- **Scope:** Connects copyright with contract and international trade law, human dignity, privacy, and personhood. Recognises contributors' work and applied resources across cooperative and humanitarian ICT projects so agreed obligations can be recorded, compensated, and discharged before transitioning a work's licence. Establishes the individual human as the **principal** over their agency, identifiers, biometrics, and **mindware**.
-- **Repository & Site:** [github.com/mediaprophet/license](https://github.com/mediaprophet/license) | [mediaprophet.github.io/license](https://mediaprophet.github.io/license/)
+### Humanitarian Equity Licensing Framework & Human-Centric Rights Fabric (`license`)
+The normative legal-technical architecture, rights ontology, contribution-to-licence-transition methodology, and prototype profile validator/document generator for the ecosystem.
+- **Purpose & Interim Licensing Transition Architecture (`PROJECT-PURPOSE.md`, `LICENSING-FRAMEWORK.md`):**
+  - Explains why ecosystem repositories currently use Creative Commons (`CC BY-NC-ND 4.0`) as an interim measure while constituent capabilities in QualiaDB (logic systems, Context Markup Language, Semantic Instruments, `qualia-cooperative-core`, and settlement ledgers) are completed and qualified.
+  - Defines the cooperative production model for humanitarian ICT and collaborative software: recognising contributors' work (research, code, documentation, translation, accessibility, review, coordination, care) and applied resources (compute, model/API costs, hosting, equipment), recording agreed compensation and obligations (`CONTRIBUTION-LIFECYCLE.md`), verifying when obligations are fully discharged, and executing an authorised release decision to transition an identified work or derivative to a new licence.
+- **Human-Centric Rights Fabric, Biometrics & Mindware (`PROJECT-PURPOSE.md`, `RIGHTS-ONTOLOGY-AND-INSTRUMENTS.md`, `ontology/rights-instrument-model.ttl`):**
+  - Establishes the living **human** as the **principal** in relation to their human agency, rights, identifiers, physiological/behavioural **biometrics**, and **mindware** (the objective and subjective foundations and qualia through which a human experiences reality, develops meaning, forms intentions, and exercises agency—keeping system inferences strictly distinct from the human's lived experience).
+  - Requires every software or institutional agent's actual principal and authority to be explicit; evaluates whether an agent has permission to act upon, identify, influence, profile, or represent a human; and ensures scoped identifier grants are never silently expanded.
+  - Incorporates **Guardianship & Supported Human Agency** grounded in international instruments (UN CRC Articles 3, 5, 12, 16; UN CRPD Articles 12, 22), distinguishing decision support from representative authority without transferring the principal human's inherent rights.
+  - Connects creator economic justice and prevention of digital/informational exploitation ("digital slavery") with **WellFair** (welfare and fairness).
+- **Contextual Assertions, Fairness Review & Transborder Frameworks:**
+  - **[Contextual Assertions (`CONTEXTUAL-ASSERTIONS.md`)](https://github.com/mediaprophet/license/blob/main/CONTEXTUAL-ASSERTIONS.md):** Separates observations, inferences, allegations, attestations, and adjudicated findings with provenance, bounded use, review, and correction routes.
+  - **[Fairness & Rights Review (`FAIRNESS-AND-RIGHTS-REVIEW.md`)](https://github.com/mediaprophet/license/blob/main/FAIRNESS-AND-RIGHTS-REVIEW.md) & [Creator Rights (`CREATOR-RIGHTS-AND-ECONOMIC-JUSTICE.md`)](https://github.com/mediaprophet/license/blob/main/CREATOR-RIGHTS-AND-ECONOMIC-JUSTICE.md):** Evaluates human welfare, economic/ecological/resource burdens, AI-assisted production, and practical remedies.
+  - **[OECD Transborder-Data Framework (`OECD-TRANSBORDER-DATA-FRAMEWORK.md`)](https://github.com/mediaprophet/license/blob/main/OECD-TRANSBORDER-DATA-FRAMEWORK.md):** Maps privacy, IP, security, localisation, and international trade-law instruments alongside integrity-checked Web Civics linked-data sources (`OECD-SOURCE-MANIFEST.md`, `WEB-CIVICS-SOURCE-MANIFEST.md`).
+- **Prototype Profile Validator, Generator & Draft Instruments (`GENERATOR.md`, `QUALIADB-IMPLEMENTATION-ROADMAP.md`):**
+  - Dependency-free Python validator and artifact bundle generator (`license-generator.cmd`, `schemas/license-profile.schema.json`) with `public-inspection` and `controlled-deployment` profiles, provisional RDFS/OWL/SHACL rights ontology (`ontology/rights-instrument-model.ttl`), draft instruments (`INCUBATION-LICENCE-DRAFT.md`, `CONTRIBUTOR-TERMS-DRAFT.md`, `ENFORCEMENT-AND-REMEDIES.md`, `RIGHTS-REGISTER.md`), and the roadmap binding these specifications into QualiaDB.
+- **Repository & Public Documentation:** [github.com/mediaprophet/license](https://github.com/mediaprophet/license) | [mediaprophet.github.io/license](https://mediaprophet.github.io/license/)
 
 ### Anatomy & Medical Atlas (`anatomy` & `ontology/biomedical`)
 Anatomical and human-welfare Hypermedia (`.hmc` / `.10d` / `.q42`) modeling and biomedical ontology integration.
@@ -218,8 +285,11 @@ Earlier research, specification, and prototype repositories whose concepts now f
 
 ## Licensing & Human-Rights Governance
 
-QualiaDB, Webizen, Aether, Webizen AI Synth, Hypermedia-Production, Poet, and all Qualia-specific architectures, ontologies, and extensions are governed by:
+QualiaDB, Webizen, Aether, Etalon, Webizen AI Synth, Hypermedia-Production, Poet, and all Qualia-specific architectures, ontologies, and extensions are governed by:
 
 **Copyright (c) 2026 Timothy Charles Holborn**  
 **https://www.linkedin.com/in/ubiquitous/ | timothy.holborn@gmail.com**  
-**License:** Attribution-NonCommercial-NoDerivatives 4.0 International (`CC BY-NC-ND 4.0`) unless explicitly covered by a separate component license (such as `MPL-2.0` on the isolated `chora` web engine or preserved upstream `MIT`/`Apache-2.0` notices).
+**License:** Attribution-NonCommercial-NoDerivatives 4.0 International (`CC BY-NC-ND 4.0`) unless explicitly covered by a separate component license (such as `MPL-2.0` on the isolated `webizen-WWW-engine` / `chora` repository or preserved upstream `MIT`/`Apache-2.0` notices).
+
+>These projects currently use the Creative Commons licence identified in their licence notices as a temporary alternative while the constituent ecosystem work needed to use the intended licensing and rights fabric is completed. The [`license` project](https://github.com/mediaprophet/license) develops that framework for cooperative and collaborative work, humanitarian ICT, contributor compensation, and accountable licence transitions. Its intended operation depends on related semantic and logic tooling, rights safeguards, contribution and settlement systems, and governance processes that remain in development. Once the required capabilities are ready, adoption will require an authorised decision for identified material; any compensation-based licence transition will also require full satisfaction of its defined agreed obligations. See [Project purpose and ecosystem licensing transitions](https://mediaprophet.github.io/license/) for the rationale and development status.
+
